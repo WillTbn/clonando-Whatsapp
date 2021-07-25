@@ -39,6 +39,8 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    overflow: hidden;
+    transition: all ease 0.3s;
 }
 .chatWindow--body{
     flex: 1;
@@ -47,4 +49,57 @@
     background-size: cover;
     background-position: center;
     background-image: url('http://jorgenunes.woza.com.br/assets/img/bg/fundo-tbn.jpg');
+    padding: 20px 30px;
 }
+.chatWindow--footer{
+    height: 62px;
+    display: flex;
+    align-items: center;
+}
+.chatWindow--pre{
+    display: flex;
+    margin: 0 15px;
+}
+.chatWindow--inputarea{
+    flex: 1;
+}
+.chatWindow--input{
+    width: 100%;
+    height: 40px;
+    border: 0;
+    outline: 0;
+    background-color: #fff;
+    border-radius: 20px;
+    font-size: 15px;
+    color:#4a4a4a;
+    padding-left: 15px;
+}
+.chatWindow--pos{
+    display: flex;
+    margin: 0 15px;
+}
+.chatWindow--emojiarea{
+    height: 200px;
+    overflow-y: hidden;
+    transition: all ease 0.3s;
+}
+
+/**Personalizando component Emoji*/
+aside.emoji-picker-react{
+    width: auto;
+    background-color: none;
+}
+.emoji-picker-react .emoji-group:before{
+    background: none;
+}
+/**Personalizando component Emoji*/
+
+/** estilizando barra de rolange para chorme*/
+.chatWindow--body::-webkit-scrollbar{
+    width: 6px;
+    height: 6px;
+}
+.chatWindow--body::-webkit-scrollbar-thumb{
+    background-color: rgba(0,0,0,0.2);
+}
+/** estilizando barra de rolange para chorme*/
