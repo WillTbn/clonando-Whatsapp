@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import './App.css';
+import Api from './Api'
 
 import ChartListItem from './components/ChatListItem';
 import ChatIntro from './components/ChatIntro'
 import ChatWindow from './components/ChatWindow'
 import NewChat from './components/NewChat'
+import Login from './components/Login'
 
 import DonutLargeIcon from '@material-ui/icons/DonutLarge';
 import ChatIcon from '@material-ui/icons/Chat';
@@ -12,21 +14,32 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SearchIcon from '@material-ui/icons/Search';
 
 export default () => {
-	const [chatlist, setChatList] = useState([
-		{chatId: 1, title: 'fulano de tal ', image:'avatar.png'},
-		{chatId: 2, title: 'Cigrano de tal ', image:'avatar.png'},
-		{chatId: 3, title: 'Tico de tal ', image:'avatar.png'},
-		{chatId: 4, title: 'fulano de tal ', image:'avatar.png'},
-	]);
+	const [chatlist, setChatList] = useState([]);
 	const [activeChat, setActiveChat] = useState({});
-	const [user, setUser] = useState({
-		id: 1234, 
-		avatar: '20210214_142508_HDR.jpg',
-		name: 'Will smith'
-	});
+	const [user, setUser] = useState(null);
 	const [showNewChat, setShowNewChat] = useState(false);
+
+	useEffect(()=>{
+		if(user !== null){
+			let unsub = Api.onChatList(user.id, setChatList)
+			return unsub
+		}
+	}, [user])
+
 	const handleNewChat = () =>{
 		setShowNewChat(true);
+	}
+	const handleLoginData = async(u) =>{
+		let newUser = {
+			id: u.uid,
+			name:u.displayName,
+			avatar: u.photoURL
+		}
+		await Api.addUser(newUser)
+		setUser(newUser)
+	}
+	if(user === null){
+		return (<Login onReceive={handleLoginData}/>)
 	}
 	return (
 	<div className="appWindow">
@@ -75,6 +88,7 @@ export default () => {
 			{activeChat.chatId !== undefined && 
 				<ChatWindow 
 					user={user}
+					data={activeChat}
 				/>
 			}
 			{activeChat.chatId === undefined && 
